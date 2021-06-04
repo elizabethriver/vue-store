@@ -1,28 +1,23 @@
 <template>
   <main>
     <Pheader />
-    <PxAssetsTable />
+
+    <router-view class="container px-5 sm:px-20 py-20 flex justify-center" />
   </main>
 </template>
 
 <script>
-// import HelloWorld from "./components/HelloWorld.vue";
-import Pheader from "./components/Pheader.vue";
-import PxAssetsTable from "./components/PxAssetsTable.vue";
+import Pheader from "@/components/Pheader";
 
 export default {
-  name: "App",
-  components: {
-    Pheader,
-    PxAssetsTable
-
-  },
+  name: "app",
+  components: { Pheader }
 };
 </script>
 
-<style src="./assets/css/tailwind.css">
+<style>
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
+  font-family: "Avenir", Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;

@@ -14,16 +14,28 @@
       </tr>
     </thead>
     <tbody>
-      <tr 
-      v-for="a in assets"
-      v-bind:key="a.id"
-      class="border-b border-gray-200 hover:bg-gray-100 hover:bg-orange-100">
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
+      <tr
+        v-for="a in assets"
+        :key="a.id"
+        class="border-b border-gray-200 hover:bg-gray-100 hover:bg-orange-100"
+      >
+        <td>
+          <img
+            v-bind:src="`https://static.coincap.io/assets/icons/${a.symbol.toLowerCase()}@2x.png`"
+            v-bind:alt="a.name"
+             class="w-16 h-auto"
+          />
+        </td>
+        <td>
+          <b># {{ a.rank }}</b>
+        </td>
+        <td>{{ a.name }}</td>
+        <!-- <td>{{ valueCripto(a.priceUsd) }}</td>
+        <td>{{ valueCripto(a.marketCapUsd)}}</td> -->
+        <td>{{ a.priceUsd | valueCripto }}</td>
+        <td>{{ a.marketCapUsd | valueCripto}}</td>
+        <td :class="a.changePercent24Hr.includes('-') ? 'text-red-600' : 'text-green-600' "  
+        >{{ a.changePercent24Hr | percentCripto }}</td>
         <td class="hidden sm:block"></td>
       </tr>
     </tbody>
@@ -31,25 +43,28 @@
 </template>
 
 <script>
+// import {valueCripto} from '../filters.js'
+
 export default {
-  name: "PxAssetsTable",
+  name: 'PxAssetsTable',
 
   props: {
     assets: {
       type: Array,
       default: () => []
     }
-  }
-};
+  },
+
+}
 </script>
 
 <style scoped>
 .up::before {
-  content: "👆";
+  content: '👆';
 }
 
 .down::before {
-  content: "👇";
+  content: '👇';
 }
 
 td {

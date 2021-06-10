@@ -29,24 +29,39 @@
         <td>
           <b># {{ a.rank }}</b>
         </td>
-        <td>{{ a.name }}</td>
+        <td>
+        <router-link 
+        class="hover:underline text-green-600"
+        v-bind:to="{ name: 'CoinDetail', params: {id: a.id} }">
+             {{ a.name }}
+        </router-link>
+        <small class="ml-1 text-gray-500">{{ a.symbol }}</small>
+       </td>
         <!-- <td>{{ valueCripto(a.priceUsd) }}</td>
         <td>{{ valueCripto(a.marketCapUsd)}}</td> -->
         <td>{{ a.priceUsd | valueCripto }}</td>
         <td>{{ a.marketCapUsd | valueCripto}}</td>
-        <td :class="a.changePercent24Hr.includes('-') ? 'text-red-600' : 'text-green-600' "  
-        >{{ a.changePercent24Hr | percentCripto }}</td>
-        <td class="hidden sm:block"></td>
+        <td :class="a.changePercent24Hr.includes('-') ? 'text-red-600' : 'text-green-600'">
+          {{ a.changePercent24Hr | percentCripto }}
+        </td>
+        <td class="hidden sm:block">
+          <Pbotton v-on:click='coinGo(a.id)'>
+            <span>
+              Details
+            </span>
+          </Pbotton>
+        </td>
       </tr>
     </tbody>
   </table>
 </template>
 
 <script>
-// import {valueCripto} from '../filters.js'
+import Pbotton from '@/components/Pbotton.vue'
 
 export default {
   name: 'PxAssetsTable',
+  components: { Pbotton },
 
   props: {
     assets: {
@@ -54,6 +69,13 @@ export default {
       default: () => []
     }
   },
+
+  methods: {
+    coinGo (id) {
+      console.log(id)
+      this.$router.push({name: 'CoinDetail', params: {id: id}})
+    }
+  }
 
 }
 </script>

@@ -1,6 +1,9 @@
 <template>
   <div class="flex-col">
-    <template v-if="asset.id">
+    <div class="flex flex-col sm:flex-row justify-around items-center"> 
+    <bounce-loader v-bind:color="'#68d391'" :loading="loading" :size="100"/>
+    </div>
+    <template v-if="!loading">
       <div class="flex flex-col sm:flex-row justify-around items-center">
         <div class="flex flex-col items-center">
           <img  v-bind:src="`https://static.coincap.io/assets/icons/${asset.symbol.toLowerCase()}@2x.png`" v-bind:alt="asset.name">
@@ -56,6 +59,7 @@
           <span class="text-xl"></span>
         </div>
       </div>
+      <line-chart class="my-10" :colors="['orange']"  xmin="xmin" xmax="xmax" :data="history.map(h =>[ h.date, parseFloat(h.priceUsd)])"/>
     </template>
   </div>
 </template>
@@ -68,7 +72,9 @@ export default {
     data() {
       return {
         asset: {},
-        history: []
+        history: [],
+        loading: false,    
+
       }
     },
     created() {
@@ -113,6 +119,7 @@ export default {
     methods: {
       getCoin() {
         // console.log('aqui');
+        this.loading = true;
         const id = this.$route.params.id;
         // console.log(id, 'id');
         Promise.all([
@@ -123,6 +130,7 @@ export default {
           this.asset = asset
            this.history = history
           })
+        .finally(() => this.loading = false)
 
       }
     },

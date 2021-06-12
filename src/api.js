@@ -28,8 +28,25 @@ const getAssetHistory = (value) => {
     .then(res => res.data)
 }
 
+const getMarkets = (value) => {
+  console.log(`${url}/assets/${value}/markets?limit=5`)
+  return fetch(`${url}/assets/${value}/markets?limit=5`)
+  .then((res) => res.json())
+  .then((res) => res.data)
+}
+
+const getExchanges = (id) => {
+  console.log(`${url}/exchanges/${id}`)
+  return fetch(`${url}/exchanges`)
+  .then((res) => res.json())
+  .then((res) => res.data)
+}
+//  getExchanges('bitcoin').then(res => console.log(res))
+// getMarkets('bitcoin').then(resp=> console.log(resp))
 export default {
   getAssets,
   getAsset,
-  getAssetHistory
+  getAssetHistory,
+  getMarkets,
+  getExchanges
 }

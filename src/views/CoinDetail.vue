@@ -55,17 +55,31 @@
               />
             </label>
           </div>
-
-          <span class="text-xl"></span>
         </div>
       </div>
       <line-chart class="my-10" :colors="['orange']"  xmin="xmin" xmax="xmax" :data="history.map(h =>[ h.date, parseFloat(h.priceUsd)])"/>
+      <h3 class="text-xl my-10">Best exchanges rates</h3>
+      <table>
+        <tr class="border-b" v-for="market in markets" v-bind:key="`${market.exchangeId} - ${market.priceUsd}`">
+          <td>
+            <b>{{market.exchangeId}}</b>
+          </td>
+          <td>{{market.priceUsd | valueCripto}}</td>
+          
+          <td>{{market.baseSymbol}} / {{market.quoteId}}</td>
+          <td>
+            <Pbotton/>
+            <a class="hover:underline text-green-600" target="_blanck"></a>
+          </td>
+        </tr>
+      </table>
     </template>
   </div>
 </template>
 
 <script>
 import api from '../api'
+import Pbotton from "../components/Pbotton.vue";
 
 export default {
     name: 'CoinDetail',
@@ -73,9 +87,13 @@ export default {
       return {
         asset: {},
         history: [],
-        loading: false,    
+        loading: false,
+        markets: []    
 
       }
+    },
+    components: {
+      Pbotton
     },
     created() {
       this.getCoin()
@@ -124,11 +142,13 @@ export default {
         // console.log(id, 'id');
         Promise.all([
         api.getAsset(id),
-        api.getAssetHistory(id)
+        api.getAssetHistory(id),
+        api.getMarkets(id)
         ])
-        .then(([asset, history]) => {
+        .then(([asset, history, markets]) => {
           this.asset = asset
-           this.history = history
+           this.history = history,
+           this.markets = markets
           })
         .finally(() => this.loading = false)
 

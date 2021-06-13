@@ -37,7 +37,7 @@ const getMarkets = (value) => {
 
 const getExchanges = (id) => {
   console.log(`${url}/exchanges/${id}`)
-  return fetch(`${url}/exchanges`)
+  return fetch(`${url}/exchanges/${id}`)
   .then((res) => res.json())
   .then((res) => res.data)
 }

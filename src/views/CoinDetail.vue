@@ -64,12 +64,21 @@
           <td>
             <b>{{market.exchangeId}}</b>
           </td>
-          <td>{{market.priceUsd | valueCripto}}</td>
-          
+          <td>{{market.priceUsd | valueCripto}}</td>     
           <td>{{market.baseSymbol}} / {{market.quoteId}}</td>
           <td>
-            <Pbotton/>
-            <a class="hover:underline text-green-600" target="_blanck"></a>
+            <Pbotton 
+            v-bind:loading="market.loading || false"
+            v-on:click="getExchangesWeb(market)"
+            v-if="!market.url"
+            >
+              <slot>Get link</slot>
+            </Pbotton>
+            <a 
+            v-else
+            class="hover:underline text-green-600" target="_blanck">
+            {{market.url}}
+            </a>
           </td>
         </tr>
       </table>
@@ -102,39 +111,50 @@ export default {
     // a computed getter
       //para invocarlas, debo ponerla en el template
       arrayHistory() {
-        console.log(this.history.map(h => h.priceUsd))
+        // console.log(this.history.map(h => h.priceUsd))
         return  this.history.map(h => h.priceUsd)
 
       },
       sum() {
-        console.log(this.arrayHistory.reduce((previous, current) => parseFloat(current) + parseFloat(previous)))
+        // console.log(this.arrayHistory.reduce((previous, current) => parseFloat(current) + parseFloat(previous)))
         // let sum = values.reduce((previous, current) => current += previous);
         return  this.arrayHistory.reduce((previous, current) => parseFloat(current) + parseFloat(previous));
       },
 
       avg() {
-        console.log( this.sum/this.arrayHistory.length)
+        // console.log( this.sum/this.arrayHistory.length)
         // let sum = values.reduce((previous, current) => current += previous);
         return  this.sum/this.arrayHistory.length;
       },
 
       min() {
         // `this` points to the vm instance
-        console.log(Math.min(...this.history.map(h => parseFloat(h.priceUsd).toFixed(2))))
+        // console.log(Math.min(...this.history.map(h => parseFloat(h.priceUsd).toFixed(2))))
         return Math.min(...this.history.map(h => parseFloat(h.priceUsd).toFixed(2))); 
       },
       max() {
         // `this` points to the vm instance
-        console.log(Math.max(...this.history.map(h => parseFloat(h.priceUsd).toFixed(2))))
+        // console.log(Math.max(...this.history.map(h => parseFloat(h.priceUsd).toFixed(2))))
         return Math.max(...this.history.map(h => parseFloat(h.priceUsd).toFixed(2))); 
       },
       prod() {
         // `this` points to the vm instance
-        console.log(this.history((a, b) => a + parseFloat(b.priceUsd), 0)/this.history.length)
+        // console.log(this.history((a, b) => a + parseFloat(b.priceUsd), 0)/this.history.length)
         return (this.history.reduce((a, b) => a + parseFloat(b.priceUsd), 0) / this.history.length)      
       }
     },
     methods: {
+      getExchangesWeb(exchange){
+        this.$set(exchange, 'loading', true)
+        return api.getExchanges(exchange.exchangeId)
+        .then((res) => 
+        {this.$set(exchange, 'url', res.exchangeUrl)
+        })
+        .finally(() => {
+        this.$set(exchange, 'loading', false)
+        })
+      
+      },
       getCoin() {
         // console.log('aqui');
         this.loading = true;

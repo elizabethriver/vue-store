@@ -13,7 +13,13 @@
             </div>
             <div class="hidden sm:block w-full blok flex-grow lg:flex lg:items-center lg:wauto">
                 <div  class="text-sm lg:flex-grow">
-                    This is a record cripto
+                <router-link
+                v-for="l in link"
+                :key="l.title"
+                :to="l.to" 
+                class="block mt-4 lg:inline-block lg:mt-0 text-teal-200 hover:text-white mr-4" >
+                {{l.title}}
+                </router-link>
                 </div>
             </div>
         </nav>
@@ -25,6 +31,30 @@ import PxIcon from '@/components/PxIcon'
 
 export default {
     name: "Pheader",
-    components: {PxIcon}
+    components: {PxIcon},
+    props: {
+        links: Array,
+        default: () => {
+
+        }
+    },
+    data() {
+        return {
+            link: [
+            {
+            title: 'BTC',
+            to: { name: 'CoinDetail', params: { id: 'bitcoin' } }
+            },
+            {
+            title: 'ETH',
+            to: { name: 'CoinDetail', params: { id: 'ethereum' } }
+            },
+            {
+            title: 'XRP',
+            to: { name: 'CoinDetail', params: { id: "xrp" } }
+            }
+        ]
+        }
+    }
 }
 </script>

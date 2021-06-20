@@ -1,7 +1,7 @@
 <template>
   <table>
     <thead>
-      <tr class="bg-gray-100 border-b-2 border-gray-400">
+      <tr class="bg-green-50 border-b-2 border-gray-400">
         <th></th>
         <th :class="{up: this.sortOrder === 1, down: this.sortOrder === -1}">
           <span 

@@ -25,6 +25,9 @@ export default {
     this.loading = true,
     api.getAssets().then(assets => (this.assets = assets))
     .finally(() => this.loading = false)
-  }
+  },
+      metaInfo: {
+      title: 'Exchange plus'
+    }
 }
 </script>

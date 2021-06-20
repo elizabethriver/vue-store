@@ -7,17 +7,17 @@
                class="font-semibold text-xl tracking-tight"
                v-bind:to="{ name: 'Home' }"
                >
-                    Platzi
+                    Exchange Plus
                </router-link>
 
             </div>
             <div class="hidden sm:block w-full blok flex-grow lg:flex lg:items-center lg:wauto">
-                <div  class="text-sm lg:flex-grow">
+                <div  class="text-sm lg:flex-grow text-white mr-4">
                 <router-link
                 v-for="l in link"
                 :key="l.title"
                 :to="l.to" 
-                class="block mt-4 lg:inline-block lg:mt-0 text-teal-200 hover:text-white mr-4" >
+                class="block mt-4 lg:inline-block lg:mt-0 text-teal-200 hover:text-gray-900 mr-4" >
                 {{l.title}}
                 </router-link>
                 </div>
